@@ -17,43 +17,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="m2k-Nn-cEN">
-                                <rect key="frame" x="20" y="54" width="374" height="671.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="m2k-Nn-cEN">
+                                <rect key="frame" x="20" y="54" width="374" height="868"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fI-Ut-2JQ">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="23.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Вопрос:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Bj-Xc-7DG" userLabel="Question Title Label">
-                                                <rect key="frame" x="0.0" y="0.0" width="287" height="23.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="23.5"/>
                                                 <color key="backgroundColor" name="YP Black (iOS)"/>
                                                 <color key="tintColor" name="YP Black (iOS)"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White (iOS)"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Index Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcg-SI-8u5">
-                                                <rect key="frame" x="287" y="0.0" width="87" height="23.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" name="YP White (iOS)"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcg-SI-8u5">
+                                                <rect key="frame" x="270" y="0.0" width="104" height="23.5"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="Index Label">
+                                                        <attributes>
+                                                            <color key="NSColor" name="YP White (iOS)"/>
+                                                            <font key="NSFont" size="20" name="YSDisplay-Medium"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L59-gS-Mkb" userLabel="Preview Image">
-                                        <rect key="frame" x="0.0" y="23.5" width="374" height="561"/>
+                                        <rect key="frame" x="0.0" y="43.5" width="374" height="561"/>
                                         <color key="backgroundColor" name="YP White (iOS)"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="L59-gS-Mkb" secondAttribute="height" multiplier="2:3" id="Ogc-U6-fwp"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tCH-0E-5vY" userLabel="Question label">
-                                        <rect key="frame" x="0.0" y="584.5" width="374" height="27"/>
-                                        <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
-                                        <color key="textColor" name="YP White (iOS)"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KWs-f1-B2n">
+                                        <rect key="frame" x="0.0" y="624.5" width="374" height="163.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tCH-0E-5vY" userLabel="Question label">
+                                                <rect key="frame" x="20" y="5" width="334" height="153.5"/>
+                                                <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
+                                                <color key="textColor" name="YP White (iOS)"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" name="YP Black (iOS)"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="tCH-0E-5vY" secondAttribute="trailing" constant="20" id="JlI-NF-Vws"/>
+                                            <constraint firstItem="tCH-0E-5vY" firstAttribute="top" secondItem="KWs-f1-B2n" secondAttribute="top" constant="5" id="d88-yV-gLc"/>
+                                            <constraint firstAttribute="bottom" secondItem="tCH-0E-5vY" secondAttribute="bottom" constant="5" id="zwE-0J-Sb3"/>
+                                            <constraint firstItem="tCH-0E-5vY" firstAttribute="leading" secondItem="KWs-f1-B2n" secondAttribute="leading" constant="20" id="zwO-dv-nkK"/>
+                                        </constraints>
+                                    </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="E67-bJ-JZj">
-                                        <rect key="frame" x="0.0" y="611.5" width="374" height="60"/>
+                                        <rect key="frame" x="0.0" y="808" width="374" height="60"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ca3-0h-0eZ" userLabel="No button">
                                                 <rect key="frame" x="0.0" y="0.0" width="177" height="60"/>
@@ -114,7 +137,9 @@
                     <connections>
                         <outlet property="counterLabel" destination="gcg-SI-8u5" id="ffh-Vi-eCJ"/>
                         <outlet property="imageView" destination="L59-gS-Mkb" id="y4r-Uu-hf9"/>
+                        <outlet property="noUIButton" destination="ca3-0h-0eZ" id="T1T-dK-F3b"/>
                         <outlet property="textLabel" destination="tCH-0E-5vY" id="RR1-6t-B3D"/>
+                        <outlet property="yesUIButton" destination="MJs-LU-JyJ" id="C7f-dk-adv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

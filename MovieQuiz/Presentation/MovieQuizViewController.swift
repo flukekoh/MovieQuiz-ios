@@ -25,6 +25,10 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     
+    @IBOutlet weak private var noUIButton: UIButton!
+    
+    @IBOutlet weak private var yesUIButton: UIButton!
+   
     private struct QuizQuestion {
       let image: String
       let text: String
@@ -95,6 +99,8 @@ final class MovieQuizViewController: UIViewController {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
+        
+        turnOnButtons()
     }
 
     private func show(quiz result: QuizResultsViewModel) {
@@ -127,9 +133,22 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
+        turnOffButtons()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            
             self.showNextQuestionOrResults()
         }
+    }
+    
+    private func turnOnButtons() {
+        yesUIButton.isEnabled = true
+        noUIButton.isEnabled = true
+    }
+    
+    private func turnOffButtons() {
+        yesUIButton.isEnabled = false
+        noUIButton.isEnabled = false
     }
 
     
