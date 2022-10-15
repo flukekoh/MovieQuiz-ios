@@ -6,6 +6,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        statisticService = StatisticServiceImplementation()
+        
         questionFactory = QuestionFactory(delegate: self)
         
         questionFactory?.requestNextQuestion()
@@ -22,6 +24,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 let viewModel = convert(model: question)
                 DispatchQueue.main.async { [weak self] in
                     self?.show(quiz: viewModel)
+                }
+    }
+    
+    // MARK: - AlertPresenterDelegate
+    func didShowAlert(alert: UIAlertController?) {
+        guard let alert = alert else {
+                    return
+                }
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.present(alert, animated: true, completion: nil)
                 }
     }
     
@@ -54,6 +67,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
     
+    private var alertPresenter: AlertPresenter?
+    private var statisticService: StatisticService?
+//    private var currentGame: GameRecord
+    
     private func show(quiz step: QuizStepViewModel) {
         imageView.layer.borderWidth = 0
         imageView.image = step.image
@@ -64,24 +81,32 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
 
     private func show(quiz result: QuizResultsViewModel) {
-//        let alert = UIAlertController(
-//            title: result.title,
-//            message: result.text,
-//            preferredStyle: .alert)
-//        
-//        let action = UIAlertAction(title: result.buttonText, style: .default) {[weak self] _ in
-//            guard let self = self else { return }
-//            
-//            self.currentQuestionIndex = 0
-//            
-//            self.correctAnswers = 0
-//            
-//            self.questionFactory?.requestNextQuestion()
-//        }
-//        
-//        alert.addAction(action)
-//        
-//        self.present(alert, animated: true, completion: nil)
+
+        guard let statisticService = statisticService else { return }
+        
+        let alertModel = AlertModel(
+            title: result.title,
+            message: """
+                Ваш результат: \(statisticService.currentGame.correct)/\(statisticService.currentGame.total)\n
+                Количество сыгранных квизов: \(statisticService.gamesCount)\n
+                Рекорд: \(statisticService.bestGame.correct)/\(statisticService.bestGame.total) (\(statisticService.bestGame.date.dateTimeString))\n
+                Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+                """,
+            buttonText: result.buttonText,
+            completion: {[weak self] in
+                            guard let self = self else { return }
+                
+                            self.currentQuestionIndex = 0
+                
+                            self.correctAnswers = 0
+                
+                            self.questionFactory?.requestNextQuestion()
+                        }
+        )
+        alertPresenter = AlertPresenter(alertModel: alertModel)
+        alertPresenter?.viewController = self
+        
+        alertPresenter?.requestAlert()
     }
 
     private func showAnswerResult(isCorrect: Bool) {
@@ -121,6 +146,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
 
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
+            
+            statisticService?.store(correct: correctAnswers, total: questionsAmount)
+            
             let text = correctAnswers == questionsAmount ?
                     "Поздравляем, Вы ответили на 10 из 10!" :
                     "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
@@ -135,4 +163,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
 }
+
+
+
+
 

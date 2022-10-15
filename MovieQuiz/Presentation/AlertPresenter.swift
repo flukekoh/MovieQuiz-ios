@@ -9,22 +9,30 @@ import Foundation
 import UIKit
 
 struct AlertPresenter {
-//    let alert = UIAlertController(
-//        title: result.title,
-//        message: result.text,
-//        preferredStyle: .alert)
-//    
-//    let action = UIAlertAction(title: result.buttonText, style: .default) {[weak self] _ in
-//        guard let self = self else { return }
-//        
-//        self.currentQuestionIndex = 0
-//        
-//        self.correctAnswers = 0
-//        
-//        self.questionFactory?.requestNextQuestion()
-//    }
-//    
-//    alert.addAction(action)
-//    
-//    self.present(alert, animated: true, completion: nil)
+    private let alertModel: AlertModel
+    
+    var viewController: UIViewController?
+    
+    func requestAlert() {
+        
+        let alert = UIAlertController(
+            title: alertModel.title,
+            message: alertModel.message,
+            preferredStyle: .alert)
+    
+        let action = UIAlertAction(
+            title: alertModel.buttonText,
+            style: .default,
+            handler: {_ in
+                alertModel.completion()
+            })
+    
+        alert.addAction(action)
+    
+        viewController?.present(alert, animated: true, completion: nil)
+    }
+    
+    init(alertModel: AlertModel) {
+        self.alertModel = alertModel
+    } 
 }
