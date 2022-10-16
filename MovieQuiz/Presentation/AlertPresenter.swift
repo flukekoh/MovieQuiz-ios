@@ -11,7 +11,7 @@ import UIKit
 struct AlertPresenter {
     private let alertModel: AlertModel
     
-    var viewController: UIViewController?
+    weak var viewController: UIViewController?
     
     func requestAlert() {
         

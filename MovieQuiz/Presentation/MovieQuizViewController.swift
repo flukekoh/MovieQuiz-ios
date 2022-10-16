@@ -69,7 +69,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var alertPresenter: AlertPresenter?
     private var statisticService: StatisticService?
-//    private var currentGame: GameRecord
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.layer.borderWidth = 0
@@ -90,7 +89,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 Ваш результат: \(statisticService.currentGame.correct)/\(statisticService.currentGame.total)\n
                 Количество сыгранных квизов: \(statisticService.gamesCount)\n
                 Рекорд: \(statisticService.bestGame.correct)/\(statisticService.bestGame.total) (\(statisticService.bestGame.date.dateTimeString))\n
-                Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+                Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy*100))%
                 """,
             buttonText: result.buttonText,
             completion: {[weak self] in
