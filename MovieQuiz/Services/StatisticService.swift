@@ -93,7 +93,7 @@ final class StatisticServiceImplementation: StatisticService {
         gamesCount += 1
         currentGame = GameRecord(correct: count, total: amount, date: Date())
     
-        if bestGame<currentGame {
+        if bestGame < currentGame {
             bestGame = currentGame
         }
         
