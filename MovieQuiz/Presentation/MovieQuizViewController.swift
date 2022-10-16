@@ -92,7 +92,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy*100))%
                 """,
             buttonText: result.buttonText,
-            completion: {[weak self] in
+            completion: { [weak self] in
                             guard let self = self else { return }
                 
                             self.currentQuestionIndex = 0
