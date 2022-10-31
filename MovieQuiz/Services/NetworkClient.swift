@@ -12,6 +12,7 @@ struct NetworkClient {
 
     private enum NetworkError: Error {
         case codeError
+        case unexpectedJSON
     }
     
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {

@@ -18,8 +18,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         statisticService = StatisticServiceImplementation()
         
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-
-//        questionFactory?.requestNextQuestion()
         questionFactory?.loadData()
         
         showLoadingIndicator()
@@ -39,16 +37,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
-    // MARK: - AlertPresenterDelegate
-    func didShowAlert(alert: UIAlertController?) {
-        guard let alert = alert else {
-            return
-        }
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.present(alert, animated: true, completion: nil)
-        }
-    }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard let currentQuestion = currentQuestion else {
@@ -181,7 +169,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
-//            image: UIImage(named: model.image) ?? UIImage(),
             image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")

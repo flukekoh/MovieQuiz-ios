@@ -12,6 +12,9 @@ protocol MoviesLoading {
 }
 
 struct MoviesLoader: MoviesLoading {
+    private enum JSONError: Error {
+        case unexpectedJSON
+    }
     // MARK: - NetworkClient
     private let networkClient = NetworkClient()
     
@@ -30,10 +33,11 @@ struct MoviesLoader: MoviesLoading {
             
             switch result {
             case .success(let mostPopularMoviesData):
-                guard let mostPopularMovies = try? JSONDecoder().decode(MostPopularMovies.self, from: mostPopularMoviesData) else {
-                    return
+                if let mostPopularMovies = try? JSONDecoder().decode(MostPopularMovies.self, from: mostPopularMoviesData) {
+                    handler(.success(mostPopularMovies))
+                } else {
+                    handler(.failure(JSONError.unexpectedJSON))
                 }
-                handler(.success(mostPopularMovies))
             case .failure(let error):
                 handler(.failure(error))
             }
