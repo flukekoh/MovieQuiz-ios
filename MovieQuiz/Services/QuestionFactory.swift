@@ -53,6 +53,10 @@ class QuestionFactory: QuestionFactoryProtocol {
     
     private var movies: [MostPopularMovie] = []
     
+    private enum QuestionError: Error {
+        case imageError
+    }
+    
     weak var delegate: QuestionFactoryDelegate?
     
     private let moviesLoader: MoviesLoading
@@ -92,6 +96,9 @@ class QuestionFactory: QuestionFactoryProtocol {
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.didFailToLoadData(with: QuestionError.imageError)
+                }
                 print("Failed to load image")
             }
             let rating = Float(movie.rating) ?? 0
