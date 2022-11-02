@@ -74,6 +74,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func showLoadingIndicator() {
         activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
         activityIndicator.startAnimating() // включаем анимацию
+        
+        textLabel.text = ""
+        counterLabel.text = ""
     }
     
     private func hideLoadingIndicator() {
@@ -92,7 +95,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             buttonText: "Попробовать ещё раз",
             completion: { [weak self] in
                 guard let self = self else { return }
-                self.showNextQuestionOrResults()
+                
+                self.showLoadingIndicator()
+                self.questionFactory?.loadData()
+                            
             }
         )
         alertPresenter = AlertPresenter(alertModel: alertModel)
