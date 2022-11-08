@@ -1,12 +1,22 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+protocol MovieQuizViewControllerProtocol: AnyObject {
+    func show(quiz step: QuizStepViewModel)
+    func show(quiz result: QuizResultsViewModel)
+    
+    func highlightImageBorder(isCorrectAnswer: Bool)
+    
+    func showLoadingIndicator()
+    func hideLoadingIndicator()
+    
+    func showNetworkError(message: String)
+}
+
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        statisticService = StatisticServiceImplementation()
         
         showLoadingIndicator()
         
@@ -23,17 +33,13 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
-    
     @IBOutlet weak private var noUIButton: UIButton!
-    
     @IBOutlet weak private var yesUIButton: UIButton!
-    
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     private var presenter: MovieQuizPresenter!
     
     private var alertPresenter: AlertPresenter?
-    private var statisticService: StatisticService?
     
     func showLoadingIndicator() {
         activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
@@ -46,6 +52,12 @@ final class MovieQuizViewController: UIViewController {
     func hideLoadingIndicator() {
         activityIndicator.isHidden = true // говорим, что индикатор загрузки скрыт
         activityIndicator.startAnimating() // включаем анимацию
+    }
+    
+    func highlightImageBorder(isCorrectAnswer: Bool) {
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 8
+        imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
     }
     
     func showNetworkError(message: String) {
@@ -62,7 +74,7 @@ final class MovieQuizViewController: UIViewController {
                 
                 self.showLoadingIndicator()
                 self.presenter.restartGame()
-                            
+                
             }
         )
         alertPresenter = AlertPresenter(alertModel: alertModel)
@@ -82,16 +94,11 @@ final class MovieQuizViewController: UIViewController {
     
     func show(quiz result: QuizResultsViewModel) {
         
-        guard let statisticService = statisticService else { return }
+        let message = presenter.makeResultsMessage()
         
         let alertModel = AlertModel(
             title: result.title,
-            message: """
-                Ваш результат: \(statisticService.currentGame.correct)/\(statisticService.currentGame.total)\n
-                Количество сыгранных квизов: \(statisticService.gamesCount)\n
-                Рекорд: \(statisticService.bestGame.correct)/\(statisticService.bestGame.total) (\(statisticService.bestGame.date.dateTimeString))\n
-                Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy*100))%
-                """,
+            message: message,
             buttonText: result.buttonText,
             completion: { [weak self] in
                 guard let self = self else { return }
@@ -105,24 +112,6 @@ final class MovieQuizViewController: UIViewController {
         alertPresenter?.requestAlert()
     }
     
-    func showAnswerResult(isCorrect: Bool) {
-        presenter.didAnswer(isCorrectAnswer: isCorrect)
-        
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 8
-        imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        
-        turnOffButtons()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else {
-                return
-            }
-            self.presenter.statisticService = self.statisticService
-            self.presenter.showNextQuestionOrResults()
-        }
-    }
-    
     private func turnOnButtons() {
         yesUIButton.isEnabled = true
         noUIButton.isEnabled = true
@@ -133,24 +122,6 @@ final class MovieQuizViewController: UIViewController {
         noUIButton.isEnabled = false
     }
     
-    
-    private func showNextQuestionOrResults() {
-        if presenter.isLastQuestion() {
-            
-            statisticService?.store(correct: presenter.correctAnswers, total: presenter.questionsAmount)
-            
-            let text = presenter.correctAnswers == presenter.questionsAmount ?
-            "Поздравляем, Вы ответили на 10 из 10!" :
-            "Вы ответили на \(presenter.correctAnswers) из 10, попробуйте ещё раз!"
-            let viewModel = QuizResultsViewModel(
-                title: "Этот раунд окончен!",
-                text: text,
-                buttonText: "Сыграть ещё раз")
-            show(quiz: viewModel)
-        } else {
-            presenter.switchToNextQuestion()
-        }
-    }
 }
 
 
