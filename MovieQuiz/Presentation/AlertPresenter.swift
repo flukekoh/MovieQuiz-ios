@@ -26,7 +26,9 @@ struct AlertPresenter {
             handler: {_ in
                 alertModel.completion()
             })
-    
+        
+        alert.view.accessibilityIdentifier = "quizAlert"
+        
         alert.addAction(action)
     
         viewController?.present(alert, animated: true, completion: nil)

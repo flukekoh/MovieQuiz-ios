@@ -16,7 +16,7 @@ struct MoviesLoader: MoviesLoading {
         case unexpectedJSON
     }
     // MARK: - NetworkClient
-    private let networkClient = NetworkClient()
+    private let networkClient: NetworkRouting
     
     // MARK: - URL
     private var mostPopularMoviesUrl: URL {
@@ -42,6 +42,10 @@ struct MoviesLoader: MoviesLoading {
                 handler(.failure(error))
             }
         }
+    }
+    
+    init(networkClient: NetworkRouting = NetworkClient()) {
+        self.networkClient = networkClient
     }
 }
 
