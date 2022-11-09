@@ -12,7 +12,7 @@ import XCTest
 
 class ArrayTest: XCTestCase {
     func testGetValueInRange() throws {
-//        Given
+        // Given
         let array = [1,1,2,3,5]
         
 //        When
